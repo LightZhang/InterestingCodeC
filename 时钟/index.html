@@ -1,0 +1,116 @@
+<div class="clock">
+    <div class="hour-hand"></div>
+    <div class="minute-hand"></div>
+    <div class="second-hand"></div>
+</div>
+
+<style>
+    html {
+        background-color: #222;
+    }
+
+    .clock {
+        background-color: #fc6;
+        border-radius: 50%;
+        height: 190px;
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transition: filter 1s linear;
+        width: 190px;
+    }
+
+    .clock:before {
+        background-color: #fff;
+        border-radius: 50%;
+        content: "";
+        height: 50px;
+        left: 50%;
+        opacity: .5;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 150px;
+    }
+
+    .clock:after {
+        background-color: #666;
+        border-radius: 50%;
+        content: "";
+        height: 5px;
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 5px;
+    }
+
+    .hour-hand {
+        background-color: #666;
+        border-radius: 5px;
+        height: 30px;
+        left: 45%;
+        position: absolute;
+        top: 20px;
+        transform-origin: 5px 25px;
+        transition: transform 1s linear;
+        width: 10px;
+    }
+
+    .minute-hand {
+        background-color: #888;
+        border-radius: 5px;
+        height: 50px;
+        left: 45%;
+        position: absolute;
+        top: 0;
+        transform-origin: 5px 45px;
+        transition: transform 1s linear;
+        width: 10px;
+    }
+
+    .second-hand {
+        background-color: #f60;
+        border-radius: 1px;
+        height: 46px;
+        left: 49%;
+        position: absolute;
+        top: 0;
+        transform-origin: 1px 45px;
+        transition: transform .2s ease-in;
+        width: 2px;
+    }
+</style>
+
+<script>
+    const c = document.querySelector('.clock'),
+        hh = document.querySelector('.hour-hand'),
+        mh = document.querySelector('.minute-hand'),
+        sh = document.querySelector('.second-hand');
+
+    let h, m, s, ha, ma, sa;
+
+    function setInitialTime() {
+        const d = new Date();
+        s = d.getSeconds();
+        m = d.getMinutes() + (s / 60);
+        h = d.getHours() + (m / 60) + (s / 3600);
+        ha = h * 30;
+        ma = m * 6;
+        sa = s * 6;
+    }
+
+    function tick() {
+        ha += 0.0083333333;
+        ma += 0.1;
+        sa += 6;
+        hh.style.transform = 'rotate(' + ha + 'deg)';
+        mh.style.transform = 'rotate(' + ma + 'deg)';
+        sh.style.transform = 'rotate(' + sa + 'deg)';
+        c.style.filter = 'hue-rotate(' + sa + 'deg)';
+    }
+
+    setInitialTime();
+    setInterval(tick, 1000);
+</script>
